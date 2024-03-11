@@ -25,22 +25,13 @@ class Encoder(nn.Module):
         self.enc1_2 = CBR2d(in_channels=config.unet_n_filters[0], out_channels=config.unet_n_filters[0])
         self.pool1 = nn.MaxPool2d(kernel_size=2)
 
-        #self.enc1_dilate = CBR2d(in_channels=config.unet_n_filters[0], out_channels=config.dilation_n_filters[0], dilation=config.dilation[0], padding='same')
-        #self.enc1_1x1 = CBR2d(in_channels=config.dilation_n_filters[0], out_channels=config.dilation_n_filters[0]//2, kernel_size=1, padding=0)
-
         self.enc2_1 = CBR2d(in_channels=config.unet_n_filters[0], out_channels=config.unet_n_filters[1])
         self.enc2_2 = CBR2d(in_channels=config.unet_n_filters[1], out_channels=config.unet_n_filters[1])
         self.pool2 = nn.MaxPool2d(kernel_size=2)
 
-        #self.enc2_dilate = CBR2d(in_channels=config.unet_n_filters[1], out_channels=config.dilation_n_filters[1], dilation=config.dilation[1], padding='same')
-        #self.enc2_1x1 = CBR2d(in_channels=config.dilation_n_filters[1], out_channels=config.dilation_n_filters[1]//2, kernel_size=1, padding=0)
-
         self.enc3_1 = CBR2d(in_channels=config.unet_n_filters[1], out_channels=config.unet_n_filters[2])
         self.enc3_2 = CBR2d(in_channels=config.unet_n_filters[2], out_channels=config.unet_n_filters[2])
         self.pool3 = nn.MaxPool2d(kernel_size=2)
-
-        #self.enc3_dilate = CBR2d(in_channels=config.unet_n_filters[2], out_channels=config.dilation_n_filters[2], dilation=config.dilation[2], padding='same')
-        #self.enc3_1x1 = CBR2d(in_channels=config.dilation_n_filters[2], out_channels=config.dilation_n_filters[2]//2, kernel_size=1, padding=0)
 
         self.enc4_1 = CBR2d(in_channels=config.unet_n_filters[2], out_channels=config.unet_n_filters[3])
         self.enc4_2 = CBR2d(in_channels=config.unet_n_filters[3], out_channels=config.unet_n_filters[3])
@@ -90,25 +81,13 @@ class Encoder(nn.Module):
         enc1_2 = self.enc1_2(enc1_1)
         pool1 = self.pool1(enc1_2)
 
-        #enc1_dilated = self.enc1_dilate(pool1)
-        #enc1_1x1 = self.enc1_1x1(enc1_dilated)
-        #enc1_3 = torch.cat((pool1, enc1_1x1), dim = 1)
-
         enc2_1 = self.enc2_1(pool1)
         enc2_2 = self.enc2_2(enc2_1)
         pool2 = self.pool2(enc2_2)
 
-        #enc2_dilated = self.enc2_dilate(pool2)
-        #enc2_1x1 = self.enc2_1x1(enc2_dilated)
-        #enc2_3 = torch.cat((pool2, enc2_1x1), dim = 1)
-
         enc3_1 = self.enc3_1(pool2)
         enc3_2 = self.enc3_2(enc3_1)
         pool3 = self.pool3(enc3_2)
-
-        #enc3_dilated = self.enc3_dilate(pool3)
-        #enc3_1x1 = self.enc2_1x1(enc3_dilated)
-        #enc3_3 = torch.cat((pool3, enc3_1x1), dim = 1)
 
         enc4_1 = self.enc4_1(pool3)
         enc4_2 = self.enc4_2(enc4_1)

@@ -95,9 +95,6 @@ for epoch in range(start_epoch, config.num_epoch):
         is_primer = is_primer.to(config.device)
         restored_img = model_gen(img)
         primer_score, disc_score_origin = model_disc(img)
-        #print('primer_disc')
-        #print(is_primer)
-        #print(primer_score)
 
         # backward
         optim_gen.zero_grad()

@@ -56,7 +56,6 @@ class Dataset(torch.utils.data.Dataset):
 	
     
     def __getitem__(self, index):
-        #img = cv2.imread(self.data_list[index])
         img_array = np.fromfile(self.data_list[index], np.uint8)
         img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
         img, img_flip = self.pre_process.augmentation(img)  
@@ -106,11 +105,6 @@ class Dataset_v3(torch.utils.data.Dataset):
         img_label_score = (img_label_score - self.config.primer_score_threshold) / self.config.primer_score_threshold
         img_label_score = torch.sigmoid(img_label_score)
         img_label_score = torch.unsqueeze(img_label_score, dim = 0)
-
-
-        #is_primer = torch.tensor([0.0])
-        #if img_label_score.item() > self.config.primer_score_threshold:
-        #    is_primer = torch.tensor([1.0])
 
         data = {'img':img, 'img_label':img_flip, 'is_primer':img_label_score}
 
